@@ -1,0 +1,35 @@
+# Privacy Policy
+
+Effective Date: 10/04/2026
+
+Thank you for using our application.
+
+## Information We Collect
+
+We do not collect, store, or share any personal information from users.
+
+If you choose to sign in using third-party services (such as Google Sign-In), we may receive basic profile information (such as your email address and name) solely for authentication purposes. We do not store or share this data outside of the app.
+
+## How We Use Information
+
+Any information received is used only to:
+
+* Provide and maintain app functionality
+* Improve user experience
+
+## Data Sharing
+
+We do not sell, trade, or share your personal information with third parties.
+
+## Data Security
+
+We take reasonable measures to protect your information, but please note that no method of transmission over the internet is 100% secure.
+
+## Changes to This Policy
+
+We may update this Privacy Policy from time to time. Changes will be reflected on this page.
+
+## Contact Us
+
+If you have any questions, please contact us at:
+tanyabumbu@gmail.com
