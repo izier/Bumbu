@@ -1,6 +1,13 @@
+// lib/main.dart
+
 import 'package:flutter/material.dart';
-import 'app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'app/app.dart';
 
 void main() {
-  runApp(const BumbuApp());
+  runApp(
+    const ProviderScope(
+      child: BumbuApp(),
+    ),
+  );
 }

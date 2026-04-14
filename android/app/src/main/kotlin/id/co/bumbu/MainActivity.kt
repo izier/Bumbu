@@ -1,4 +1,4 @@
-package id.co.bumbu.bumbu
+package id.co.bumbu
 
 import io.flutter.embedding.android.FlutterActivity
 
