@@ -1,5 +1,3 @@
-// features/pantry/data/repositories/pantry_repository_impl.dart
-
 import '../../domain/entities/ingredient.dart';
 import '../../domain/repositories/pantry_repository.dart';
 import '../datasources/pantry_local_datasource.dart';

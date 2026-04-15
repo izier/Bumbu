@@ -1,5 +1,3 @@
-// features/pantry/domain/entities/ingredient.dart
-
 enum ConfidenceLevel { high, medium, low }
 
 class Ingredient {

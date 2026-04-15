@@ -1,5 +1,3 @@
-// features/pantry/domain/services/pantry_engine.dart
-
 import '../../../../core/constants/app_constants.dart';
 import '../entities/ingredient.dart';
 import '../../../../core/utils/string_utils.dart';

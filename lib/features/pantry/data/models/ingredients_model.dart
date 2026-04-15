@@ -1,5 +1,3 @@
-// features/pantry/data/models/ingredient_model.dart
-
 import '../../domain/entities/ingredient.dart';
 
 class IngredientModel extends Ingredient {

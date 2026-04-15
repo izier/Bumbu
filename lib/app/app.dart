@@ -16,7 +16,7 @@ class BumbuApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: AppRouter.pantry,
+      initialRoute: AppRouter.activity,
     );
   }
 }

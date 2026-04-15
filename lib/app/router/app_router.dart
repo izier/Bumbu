@@ -1,16 +1,16 @@
 // lib/app/router/app_router.dart
 
 import 'package:flutter/material.dart';
-import '../../features/pantry/presentation/screens/pantry_screen.dart';
+import '../../features/activity/presentation/pages/activity_page.dart';
 
 class AppRouter {
-  static const String pantry = '/';
+  static const String activity = '/';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case pantry:
+      case activity:
         return MaterialPageRoute(
-          builder: (_) => const PantryScreen(),
+          builder: (_) => const ActivityPage(),
         );
 
       default:

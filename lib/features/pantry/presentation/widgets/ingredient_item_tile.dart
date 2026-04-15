@@ -6,11 +6,11 @@ import '../../../../app/theme/theme_extensions.dart';
 import '../../domain/entities/ingredient.dart';
 import '../state/pantry_provider.dart';
 
-class IngredientItem extends ConsumerWidget {
+class IngredientItemTile extends ConsumerWidget {
   final Ingredient ingredient;
   final int index;
 
-  const IngredientItem({
+  const IngredientItemTile({
     super.key,
     required this.ingredient,
     required this.index,
@@ -65,8 +65,6 @@ class IngredientItem extends ConsumerWidget {
       /// 👉 Swipe to delete
       direction: DismissDirection.endToStart,
       background: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
           color: theme.colorScheme.error,
@@ -91,7 +89,7 @@ class IngredientItem extends ConsumerWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+          margin: const EdgeInsets.symmetric(vertical: 4),
           padding: const EdgeInsets.all(14),
 
           decoration: BoxDecoration(

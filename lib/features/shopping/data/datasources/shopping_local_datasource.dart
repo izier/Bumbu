@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/ingredients_model.dart';
+import '../models/shopping_item_model.dart';
 
-class PantryLocalDataSource {
-  static const String key = 'pantry_items';
+class ShoppingLocalDatasource {
+  static const String key = 'shopping_items';
 
-  Future<List<IngredientModel>> loadPantry() async {
+  Future<List<ShoppingItemModel>> loadShoppingList() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString(key);
 
@@ -14,11 +14,11 @@ class PantryLocalDataSource {
     final List decoded = jsonDecode(jsonString);
 
     return decoded
-        .map((e) => IngredientModel.fromJson(e))
+        .map((e) => ShoppingItemModel.fromJson(e))
         .toList();
   }
 
-  Future<void> savePantry(List<IngredientModel> items) async {
+  Future<void> saveShoppingList(List<ShoppingItemModel> items) async {
     final prefs = await SharedPreferences.getInstance();
 
     final jsonList = items.map((e) => e.toJson()).toList();

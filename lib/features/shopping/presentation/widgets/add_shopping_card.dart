@@ -1,25 +1,25 @@
 import 'package:bumbu/app/theme/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../state/pantry_provider.dart';
+import '../state/shopping_provider.dart';
 
-class AddIngredientCard extends ConsumerStatefulWidget {
+class AddShoppingCard extends ConsumerStatefulWidget {
   final bool expanded;
   final VoidCallback onToggle;
 
-  const AddIngredientCard({
+  const AddShoppingCard({
     super.key,
     required this.expanded,
     required this.onToggle,
   });
 
   @override
-  ConsumerState<AddIngredientCard> createState() =>
-      _AddIngredientCardState();
+  ConsumerState<AddShoppingCard> createState() =>
+      _AddShoppingCardState();
 }
 
-class _AddIngredientCardState
-    extends ConsumerState<AddIngredientCard>
+class _AddShoppingCardState
+    extends ConsumerState<AddShoppingCard>
     with SingleTickerProviderStateMixin {
   final controller = TextEditingController();
 
@@ -27,14 +27,14 @@ class _AddIngredientCardState
     final text = controller.text.trim();
     if (text.isEmpty) return;
 
-    ref.read(pantryProvider.notifier).add(text);
+    ref.read(shoppingProvider.notifier).add(text);
     controller.clear();
 
     widget.onToggle();
   }
 
   void quickAdd(String value) {
-    ref.read(pantryProvider.notifier).add(value);
+    ref.read(shoppingProvider.notifier).add(value);
 
     widget.onToggle();
   }
@@ -64,8 +64,8 @@ class _AddIngredientCardState
           /// 🧠 HEADER TEXT (Emotion)
           Text(
             widget.expanded
-                ? "What do you have?"
-                : "Add something to your kitchen",
+                ? "What do you want to buy?"
+                : "Add something to your shopping list",
             style: theme.textTheme.titleLarge,
           ),
 
@@ -73,7 +73,7 @@ class _AddIngredientCardState
 
           Text(
             widget.expanded
-                ? "We’ll turn it into something you can cook"
+                ? "We’ll add it to your pantry automatically"
                 : "Start with one ingredient",
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.6),

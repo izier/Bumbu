@@ -1,5 +1,3 @@
-// usecases/add_ingredient.dart
-
 import '../../../../core/utils/string_utils.dart';
 import '../entities/ingredient.dart';
 import '../repositories/pantry_repository.dart';
