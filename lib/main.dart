@@ -1,13 +1,5 @@
-// lib/main.dart
+import 'app/bootstrap.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'app/app.dart';
-
-void main() {
-  runApp(
-    const ProviderScope(
-      child: BumbuApp(),
-    ),
-  );
+Future<void> main() async {
+  await bootstrap();
 }

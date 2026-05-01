@@ -1,12 +1,7 @@
-// lib/core/utils/date_utils.dart
+class AppDateUtils {
+  static DateTime now() => DateTime.now();
 
-class DateUtilsHelper {
-  static int daysBetween(DateTime from, DateTime to) {
-    return to.difference(from).inDays;
-  }
-
-  static bool isOlderThan(DateTime date, int days) {
-    final now = DateTime.now();
-    return now.difference(date).inDays > days;
+  static String format(DateTime date) {
+    return '${date.year}-${date.month}-${date.day}';
   }
 }
