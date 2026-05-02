@@ -6,7 +6,7 @@ class FeedRemoteDataSource {
   FeedRemoteDataSource(this.firestore);
 
   Future<List<Map<String, dynamic>>> getFeed() async {
-    final snapshot = await firestore.collection('feed').limit(20).get();
+    final snapshot = await firestore.collection('home').limit(20).get();
 
     return snapshot.docs.map((e) => e.data()).toList();
   }

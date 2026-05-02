@@ -1,4 +1,4 @@
-// import '../../features/social/domain/repositories/social_repository.dart';
+// import '../../features/chat/domain/repositories/social_repository.dart';
 // import '../data_sources/remote/firebase/social_remote_ds.dart';
 //
 // class SocialRepositoryImpl implements SocialRepository {

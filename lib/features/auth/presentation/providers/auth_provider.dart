@@ -1,29 +1,32 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import '../../domain/entities/app_user.dart';
-import '../../../../core/errors/auth_exceptions.dart';
-import '../../../../core/errors/auth_error_mapper.dart';
 
-// ── 1. Auth state — only ever null (logged out) or an AppUser (logged in) ──
+import '../../../../core/errors/auth_error_mapper.dart';
+import '../../../../core/errors/auth_exceptions.dart';
+import '../../../../core/utils/logger.dart';
+import '../../domain/entities/app_user.dart';
 
 final authStateProvider = StateNotifierProvider<AuthNotifier, AppUser?>((ref) {
   return AuthNotifier(ref);
 });
 
 class AuthNotifier extends StateNotifier<AppUser?> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Ref _ref;
-
   AuthNotifier(this._ref) : super(null) {
     _init();
   }
 
-  Future<void> _init() async {
-    _auth.authStateChanges().listen((user) {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Ref _ref;
+  StreamSubscription<User?>? _authSubscription;
+
+  void _init() {
+    _authSubscription = _auth.authStateChanges().listen((user) {
       if (user == null) {
         state = null;
       } else {
@@ -34,24 +37,26 @@ class AuthNotifier extends StateNotifier<AppUser?> {
 
   Future<void> logout() async {
     await _auth.signOut();
-    // Invalidate sign-in state so the next session starts clean.
     _ref.invalidate(signInStateProvider);
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
   }
 }
 
-// ── 2. Sign-in state — owned by the auth page, invisible to the router ──────
-
 final signInStateProvider =
-StateNotifierProvider<SignInNotifier, AsyncValue<void>>((ref) {
-  return SignInNotifier(ref);
-});
+    StateNotifierProvider<SignInNotifier, AsyncValue<void>>((ref) {
+      return SignInNotifier(ref);
+    });
 
 class SignInNotifier extends StateNotifier<AsyncValue<void>> {
+  SignInNotifier(Ref _) : super(const AsyncData(null));
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  SignInNotifier(Ref ref) : super(const AsyncData(null));
-
-  // ---------------- EMAIL LOGIN ----------------
   Future<void> signInEmail(String email, String password) async {
     state = const AsyncLoading();
     try {
@@ -63,18 +68,14 @@ class SignInNotifier extends StateNotifier<AsyncValue<void>> {
         throw const AuthException(AuthErrorType.weakPassword);
       }
 
-      await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
       state = const AsyncData(null);
     } catch (e, st) {
-      print('AUTH ERROR: $e');
+      Logger.error('Auth sign-in failed', e, st);
       state = AsyncError(mapFirebaseAuthException(e), st);
     }
   }
 
-  // ---------------- REGISTER ----------------
   Future<void> registerEmail(String email, String password) async {
     state = const AsyncLoading();
     try {
@@ -96,7 +97,6 @@ class SignInNotifier extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  // ---------------- GOOGLE ----------------
   Future<void> signInGoogle() async {
     state = const AsyncLoading();
     try {
@@ -124,7 +124,6 @@ class SignInNotifier extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  // ---------------- APPLE ----------------
   Future<void> signInApple() async {
     state = const AsyncLoading();
     try {
@@ -153,6 +152,5 @@ class SignInNotifier extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  /// Call from the auth page to clear a previous error before retrying.
   void clearError() => state = const AsyncData(null);
 }

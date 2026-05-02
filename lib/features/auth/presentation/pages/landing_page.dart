@@ -1,4 +1,5 @@
-import 'package:bumbu/app/theme/app_theme.dart';
+import 'package:bumbu/app/theme/tokens/app_radius.dart';
+import 'package:bumbu/app/theme/tokens/app_spacing.dart';
 import 'package:bumbu/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,10 +69,7 @@ class LandingPage extends ConsumerWidget {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(AppRadius.xl),
-                  child: Image.asset(
-                    AppConstants.logobgprimary,
-                    width: 200,
-                  ),
+                  child: Image.asset(AppConstants.logobgprimary, width: 200),
                 ),
               ),
 
@@ -110,7 +108,8 @@ class LandingPage extends ConsumerWidget {
                   // leaving matchedLocation as /landing — which breaks the
                   // router redirect guards (errors redirect to landing instead
                   // of staying on auth).
-                  context.go(RouteNames.auth);
+                  // context.go(RouteNames.auth);
+                  context.push(RouteNames.auth);
                 },
                 child: Text(t.getStarted),
               ),

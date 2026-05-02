@@ -113,7 +113,7 @@ abstract class AppLocalizations {
   /// **'Discovery'**
   String get discovery;
 
-  /// No description provided for @social.
+  /// No description provided for @chat.
   ///
   /// In en, this message translates to:
   /// **'Social'**

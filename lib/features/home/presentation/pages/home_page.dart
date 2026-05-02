@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/feature_placeholder_page.dart';
 
-class ShoppingPage extends StatelessWidget {
-  const ShoppingPage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const FeaturePlaceholderPage(label: 'Shopping');
+    return const FeaturePlaceholderPage(label: 'Home');
   }
 }

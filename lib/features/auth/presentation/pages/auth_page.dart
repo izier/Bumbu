@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/router/route_names.dart';
-import '../../../../app/theme/app_theme.dart';
+import '../../../../app/theme/tokens/app_spacing.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/errors/auth_exceptions.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -64,7 +63,8 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () => context.go(RouteNames.landing),
+          // onPressed: () => context.go(RouteNames.landing),
+          onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back),
         ),
       ),
@@ -181,13 +181,11 @@ class _AuthPageState extends ConsumerState<AuthPage> {
                     onPressed: isLoading
                         ? null
                         : () {
-                      notifier.clearError();
-                      setState(() => _isLogin = !_isLogin);
-                    },
+                            notifier.clearError();
+                            setState(() => _isLogin = !_isLogin);
+                          },
                     child: Text(
-                      _isLogin
-                          ? t.dontHaveAnAccount
-                          : t.alreadyHaveAnAccount,
+                      _isLogin ? t.dontHaveAnAccount : t.alreadyHaveAnAccount,
                     ),
                   ),
                 ],
