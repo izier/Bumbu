@@ -1,23 +1,32 @@
-import 'package:bumbu/features/kitchen/presentation/pages/activity_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/auth/presentation/pages/auth_page.dart';
-import '../../features/auth/presentation/pages/landing_page.dart';
-import '../../features/auth/presentation/providers/auth_provider.dart';
-import '../../features/cooking/presentation/pages/cooking_mode_page.dart';
-import '../../features/home/presentation/pages/home_page.dart';
-import '../../features/pantry/presentation/pages/pantry_page.dart';
-import '../../features/recipe/presentation/pages/recipe_detail_page.dart';
-import '../../features/shopping/presentation/pages/shopping_page.dart';
-import '../../features/profile/presentation/pages/profile_page.dart';
-import '../../features/splash/presentation/pages/splash_page.dart';
-import '../../features/activity/presentation/pages/activity_page.dart';
-import '../../features/chat/presentation/pages/chat_page.dart';
+import 'package:bumbu/features/auth/presentation/pages/auth_page.dart';
+import 'package:bumbu/features/auth/presentation/pages/landing_page.dart';
+import 'package:bumbu/features/auth/presentation/providers/auth_provider.dart';
+import 'package:bumbu/features/cooking/presentation/pages/cooking_mode_page.dart';
+import 'package:bumbu/features/home/presentation/pages/home_page.dart';
+import 'package:bumbu/features/pantry/presentation/pages/pantry_page.dart';
+import 'package:bumbu/features/recipe/domain/entities/recipe.dart';
+import 'package:bumbu/features/recipe/presentation/pages/recipe_detail_page.dart';
+import 'package:bumbu/features/recipe/presentation/pages/recipe_editor_page.dart';
+import 'package:bumbu/features/shopping/presentation/pages/shopping_page.dart';
+import 'package:bumbu/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:bumbu/features/profile/presentation/pages/profile_menu_page.dart';
+import 'package:bumbu/features/profile/presentation/pages/profile_page.dart';
+import 'package:bumbu/features/profile/presentation/pages/user_profile_detail_page.dart';
+import 'package:bumbu/features/profile/presentation/pages/social_user_list_page.dart';
+import 'package:bumbu/features/profile/presentation/providers/social_provider.dart';
+import 'package:bumbu/features/profile/domain/entities/user_profile.dart';
+import 'package:bumbu/features/search/presentation/pages/search_page.dart';
+import 'package:bumbu/features/splash/presentation/pages/splash_page.dart';
+import 'package:bumbu/features/activity/presentation/pages/activity_page.dart';
+import 'package:bumbu/features/chat/presentation/pages/chat_page.dart';
+import 'package:bumbu/features/kitchen/presentation/pages/kitchen_page.dart';
 
-import '../shell/app_shell.dart';
-import 'route_names.dart';
+import 'package:bumbu/app/shell/pages/app_shell.dart';
+import 'package:bumbu/app/router/route_names.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final routerNotifier = _AuthRouterNotifier(ref);
@@ -33,6 +42,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       final isSplash = location == RouteNames.splash;
       final isLanding = location == RouteNames.landing;
       final isAuth = location.startsWith(RouteNames.auth);
+
+      // Don't redirect if we're already on a valid social path
+      final isSocialPath = location.startsWith('/profile/followers/') || 
+                          location.startsWith('/profile/following/');
 
       if (!isLoggedIn) {
         if (isLanding || isAuth) return null;
@@ -59,40 +72,111 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: RouteNames.auth,
         builder: (context, state) => const AuthPage(),
       ),
-
-      // ───────── SHELL ─────────
-      ShellRoute(
-        builder: (context, state, child) => AppShell(),
+      GoRoute(
+        path: RouteNames.recipeEditor,
+        builder: (context, state) {
+          final recipe = state.extra is Recipe ? state.extra! as Recipe : null;
+          return RecipeEditorPage(recipe: recipe);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.profileMenu,
+        builder: (context, state) => const ProfileMenuPage(),
+      ),
+      GoRoute(
+        path: RouteNames.editProfile,
+        builder: (context, state) => const EditProfilePage(),
+      ),
+      GoRoute(
+        path: '/profile/followers/:userId',
+        builder: (context, state) {
+          final userId = state.pathParameters['userId']!;
+          final title = state.uri.queryParameters['title'] ?? '';
+          return SocialUserListPage(
+            title: title,
+            usersAsync: ref.watch(followersProvider(userId)),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/profile/following/:userId',
+        builder: (context, state) {
+          final userId = state.pathParameters['userId']!;
+          final title = state.uri.queryParameters['title'] ?? '';
+          return SocialUserListPage(
+            title: title,
+            usersAsync: ref.watch(followingProvider(userId)),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.search,
+        builder: (context, state) => const SearchPage(),
         routes: [
           GoRoute(
-            path: RouteNames.home,
-            builder: (context, state) => const HomePage(),
+            path: 'user-profile',
+            builder: (context, state) {
+              final profile = state.extra as UserProfile;
+              return UserProfileDetailPage(profile: profile);
+            },
           ),
-          GoRoute(
-            path: RouteNames.kitchen,
-            builder: (context, state) => const KitchenPage(),
+        ],
+      ),
+
+      // ───────── SHELL ─────────
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            AppShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'pantry',
-                builder: (context, state) => const PantryPage(),
-              ),
-              GoRoute(
-                path: 'shopping',
-                builder: (context, state) => const ShoppingPage(),
+                path: RouteNames.home,
+                builder: (context, state) => const HomePage(),
               ),
             ],
           ),
-          GoRoute(
-            path: RouteNames.activity,
-            builder: (context, state) => const ActivityPage(),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.kitchen,
+                builder: (context, state) => const KitchenPage(),
+                routes: [
+                  GoRoute(
+                    path: 'pantry',
+                    builder: (context, state) => const PantryPage(),
+                  ),
+                  GoRoute(
+                    path: 'shopping',
+                    builder: (context, state) => const ShoppingPage(),
+                  ),
+                ],
+              ),
+            ],
           ),
-          GoRoute(
-            path: RouteNames.chat,
-            builder: (context, state) => const ChatPage(),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.activity,
+                builder: (context, state) => const ActivityPage(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: RouteNames.profile,
-            builder: (context, state) => const ProfilePage(),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.chat,
+                builder: (context, state) => const ChatPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.profile,
+                builder: (context, state) => const ProfilePage(),
+              ),
+            ],
           ),
         ],
       ),

@@ -13,6 +13,8 @@ String localizeAuthError(AuthException e, AppLocalizations t) {
       return t.errorUserNotFound;
     case AuthErrorType.emailAlreadyInUse:
       return t.errorEmailAlreadyUsed;
+    case AuthErrorType.usernameAlreadyInUse:
+      return t.errorUsernameAlreadyUsed;
     case AuthErrorType.weakPassword:
       return t.errorWeakPassword;
     case AuthErrorType.network:

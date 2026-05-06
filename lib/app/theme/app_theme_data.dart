@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'tokens/app_animations.dart';
 import 'tokens/app_colors.dart';
 import 'tokens/app_radius.dart';
+import 'tokens/app_spacing.dart';
 import 'tokens/app_typography.dart';
 
 //  8. THEME DATA (Light)
@@ -24,6 +25,7 @@ ThemeData get appLightTheme {
   });
 
   return ThemeData(
+    canvasColor: AppColors.surfaceLight,
     primarySwatch: primarySwatch,
     useMaterial3: true,
     brightness: Brightness.light,
@@ -58,13 +60,15 @@ ThemeData get appLightTheme {
     scaffoldBackgroundColor: AppColors.bgLight,
 
     // ── App Bar ───────────────────────────────────────────────────────────
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.surfaceLight,
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
       foregroundColor: AppColors.textPrimary,
       elevation: 0,
-      scrolledUnderElevation: 0.5,
-      shadowColor: Color(0x14000000),
-      centerTitle: false,
+      scrolledUnderElevation: 0, // iOS uses blur, not shadow on scroll
+      shadowColor: Colors.transparent,
+      // iOS style nav: centered title in standard height bars
+      centerTitle: true,
+      titleSpacing: AppSpacing.screenPadding,
       titleTextStyle: TextStyle(
         fontFamily: AppTypography.displayFont,
         fontSize: 20,
@@ -82,15 +86,20 @@ ThemeData get appLightTheme {
 
     // ── Bottom Navigation ─────────────────────────────────────────────────
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: AppColors.navBgLight,
+      backgroundColor: Colors.transparent,
       selectedItemColor: AppColors.navActive,
       unselectedItemColor: AppColors.navInactive,
       type: BottomNavigationBarType.fixed,
       elevation: 0,
-      showSelectedLabels: false,
+      showSelectedLabels: true,
       showUnselectedLabels: false,
       selectedIconTheme: IconThemeData(size: 26),
       unselectedIconTheme: IconThemeData(size: 24),
+      selectedLabelStyle: TextStyle(
+        fontFamily: AppTypography.bodyFont,
+        fontSize: 11,
+        fontWeight: FontWeight.w600,
+      ),
     ),
 
     // ── Navigation Bar (Material 3) ────────────────────────────────────────
@@ -124,15 +133,20 @@ ThemeData get appLightTheme {
     ),
 
     // ── Cards ─────────────────────────────────────────────────────────────
+    // iOS 26: flat cards with a hairline inner stroke for depth
     cardTheme: CardThemeData(
       color: AppColors.cardLight,
       elevation: 0,
       shadowColor: Colors.transparent,
       margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(borderRadius: AppRadius.cardRadius),
+      shape: RoundedRectangleBorder(
+        borderRadius: AppRadius.cardRadius,
+        side: const BorderSide(color: Color(0x0F000000), width: 0.5),
+      ),
     ),
 
     // ── Elevated Buttons ──────────────────────────────────────────────────
+    // iOS 26: slightly shorter, shrinkWrap tap target
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.resolveWith((states) {
@@ -143,14 +157,12 @@ ThemeData get appLightTheme {
         }),
         foregroundColor: WidgetStateProperty.all(AppColors.textOnPrimary),
         overlayColor: WidgetStateProperty.all(const Color(0x1AFFFFFF)),
-        elevation: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.pressed)) return 0;
-          return 0;
-        }),
+        elevation: WidgetStateProperty.all(0),
         shadowColor: WidgetStateProperty.all(Colors.transparent),
-        minimumSize: WidgetStateProperty.all(const Size(double.infinity, 56)),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: WidgetStateProperty.all(
-          const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         ),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: AppRadius.buttonRadius),
@@ -174,7 +186,8 @@ ThemeData get appLightTheme {
             width: states.contains(WidgetState.focused) ? 1.5 : 1.0,
           );
         }),
-        minimumSize: WidgetStateProperty.all(const Size(double.infinity, 52)),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: WidgetStateProperty.all(
           const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         ),
@@ -192,6 +205,7 @@ ThemeData get appLightTheme {
       style: ButtonStyle(
         foregroundColor: WidgetStateProperty.all(AppColors.primary),
         overlayColor: WidgetStateProperty.all(const Color(0x0FFF383C)),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: WidgetStateProperty.all(
           const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         ),
@@ -207,7 +221,7 @@ ThemeData get appLightTheme {
 
     // ── Dropdown Menu ─────────────────────────────────────────────────────
     dropdownMenuTheme: DropdownMenuThemeData(
-      textStyle: TextStyle(color: AppColors.textPrimary),
+      textStyle: const TextStyle(color: AppColors.textPrimary),
       menuStyle: MenuStyle(
         backgroundColor: WidgetStatePropertyAll(AppColors.surfaceLight),
         surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
@@ -252,6 +266,7 @@ ThemeData get appLightTheme {
       style: ButtonStyle(
         foregroundColor: WidgetStateProperty.all(AppColors.textPrimary),
         overlayColor: WidgetStateProperty.all(const Color(0x0A000000)),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: WidgetStateProperty.all(const EdgeInsets.all(8)),
         minimumSize: WidgetStateProperty.all(const Size(40, 40)),
         shape: WidgetStateProperty.all(
@@ -261,10 +276,11 @@ ThemeData get appLightTheme {
     ),
 
     // ── Input / Text Field ────────────────────────────────────────────────
+    // iOS 26: softer fill, no border at rest, tighter padding
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.surfaceAlt,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: AppRadius.inputRadius,
         borderSide: BorderSide.none,
@@ -368,6 +384,7 @@ ThemeData get appLightTheme {
     ),
 
     // ── Bottom Sheet ──────────────────────────────────────────────────────
+    // iOS 26: large top radius (20+), floats up like a glass panel
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: AppColors.surfaceLight,
       modalBackgroundColor: AppColors.surfaceLight,
@@ -376,7 +393,9 @@ ThemeData get appLightTheme {
       modalElevation: 24,
       dragHandleColor: Color(0xFFDDDBD8),
       dragHandleSize: Size(40, 4),
-      shape: RoundedRectangleBorder(borderRadius: AppRadius.sheetRadius),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       showDragHandle: true,
     ),
 
@@ -466,12 +485,17 @@ ThemeData get appLightTheme {
     ),
 
     // ── Tab Bar ───────────────────────────────────────────────────────────
+    // iOS 26: pill/capsule indicator instead of underline
     tabBarTheme: TabBarThemeData(
-      indicatorColor: AppColors.primary,
-      labelColor: AppColors.primary,
-      unselectedLabelColor: AppColors.textTertiary,
-      indicatorSize: TabBarIndicatorSize.label,
+      // Selected: strong hue on soft tint; unselected: neutral (not primary).
+      labelColor: AppColors.primaryDarker,
+      unselectedLabelColor: AppColors.textSecondary,
+      indicatorSize: TabBarIndicatorSize.tab,
       dividerColor: Colors.transparent,
+      indicator: BoxDecoration(
+        color: AppColors.primaryLighter,
+        borderRadius: BorderRadius.circular(20),
+      ),
       labelStyle: const TextStyle(
         fontFamily: AppTypography.bodyFont,
         fontSize: 14,
@@ -482,6 +506,7 @@ ThemeData get appLightTheme {
         fontSize: 14,
         fontWeight: FontWeight.w500,
       ),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       overlayColor: WidgetStateProperty.all(const Color(0x0AFF383C)),
     ),
 
@@ -620,7 +645,6 @@ ThemeData get appLightTheme {
     splashFactory: InkSparkle.splashFactory,
 
     // ── Page Transitions ──────────────────────────────────────────────────
-    // Slide + fade: snappy 220 ms base with easeOut entrance.
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: _GrubPageTransitionsBuilder(),
@@ -644,12 +668,12 @@ class _GrubPageTransitionsBuilder extends PageTransitionsBuilder {
 
   @override
   Widget buildTransitions<T>(
-    PageRoute<T> route,
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
+      PageRoute<T> route,
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+      ) {
     final enter = CurvedAnimation(
       parent: animation,
       curve: AppAnimations.enter,
@@ -682,6 +706,7 @@ class _GrubPageTransitionsBuilder extends PageTransitionsBuilder {
 
 ThemeData get appDarkTheme {
   return appLightTheme.copyWith(
+    canvasColor: AppColors.surfaceDark,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.bgDark,
 
@@ -709,13 +734,14 @@ ThemeData get appDarkTheme {
       inversePrimary: AppColors.primaryDark,
     ),
 
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.surfaceDark,
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
       foregroundColor: AppColors.textPrimaryDark,
       elevation: 0,
-      scrolledUnderElevation: 0.5,
-      shadowColor: Color(0x28000000),
-      centerTitle: false,
+      scrolledUnderElevation: 0,
+      shadowColor: Colors.transparent,
+      centerTitle: true,
+      titleSpacing: AppSpacing.screenPadding,
       titleTextStyle: TextStyle(
         fontFamily: AppTypography.displayFont,
         fontSize: 20,
@@ -731,17 +757,21 @@ ThemeData get appDarkTheme {
       ),
     ),
 
+    // ── Cards (Dark) ──────────────────────────────────────────────────────
     cardTheme: CardThemeData(
       color: AppColors.cardDark,
       elevation: 0,
       margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(borderRadius: AppRadius.cardRadius),
+      shape: RoundedRectangleBorder(
+        borderRadius: AppRadius.cardRadius,
+        side: const BorderSide(color: Color(0x1AFFFFFF), width: 0.5),
+      ),
     ),
 
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.surfaceAltDark,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: AppRadius.inputRadius,
         borderSide: BorderSide.none,
@@ -753,6 +783,14 @@ ThemeData get appDarkTheme {
       focusedBorder: OutlineInputBorder(
         borderRadius: AppRadius.inputRadius,
         borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: AppRadius.inputRadius,
+        borderSide: const BorderSide(color: AppColors.error, width: 1.5),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: AppRadius.inputRadius,
+        borderSide: const BorderSide(color: AppColors.error, width: 1.5),
       ),
       hintStyle: const TextStyle(
         fontFamily: AppTypography.bodyFont,
@@ -770,6 +808,13 @@ ThemeData get appDarkTheme {
         fontWeight: FontWeight.w600,
         color: AppColors.primary,
       ),
+      errorStyle: const TextStyle(
+        fontFamily: AppTypography.bodyFont,
+        fontSize: 12,
+        color: AppColors.error,
+      ),
+      prefixIconColor: AppColors.textTertiaryDark,
+      suffixIconColor: AppColors.textTertiaryDark,
     ),
 
     dividerTheme: const DividerThemeData(
@@ -791,14 +836,8 @@ ThemeData get appDarkTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        // Use fully-opaque fill so the dark background is not see-through.
-        // Previously: surfaceAltDark.withValues(alpha: 0.5) was semi-transparent
-        // and blended with the light scaffold behind it.
         fillColor: AppColors.surfaceAltDark,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 10,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -816,28 +855,62 @@ ThemeData get appDarkTheme {
           fontSize: 15,
           color: AppColors.textTertiaryDark,
         ),
+        // ✅ FIX 1: Add these missing dark-mode colors
         labelStyle: const TextStyle(
           fontFamily: AppTypography.bodyFont,
           fontSize: 14,
           color: AppColors.textSecondaryDark,
         ),
+        prefixIconColor: AppColors.textTertiaryDark,
+        suffixIconColor: AppColors.textTertiaryDark,
       ),
     ),
 
-    // ── Bottom Navigation ─────────────────────────────────────────────────
+    // ── Search Bar (Dark) ─────────────────────────────────────────────────
+    searchBarTheme: SearchBarThemeData(
+      backgroundColor: WidgetStateProperty.all(AppColors.surfaceAltDark),
+      elevation: WidgetStateProperty.all(0),
+      hintStyle: WidgetStateProperty.all(
+        const TextStyle(
+          fontFamily: AppTypography.bodyFont,
+          fontSize: 15,
+          color: AppColors.textTertiaryDark,
+        ),
+      ),
+      textStyle: WidgetStateProperty.all(
+        const TextStyle(
+          fontFamily: AppTypography.bodyFont,
+          fontSize: 15,
+          color: AppColors.textPrimaryDark,
+        ),
+      ),
+      shape: WidgetStateProperty.all(
+        RoundedRectangleBorder(borderRadius: AppRadius.inputRadius),
+      ),
+      padding: WidgetStateProperty.all(
+        const EdgeInsets.symmetric(horizontal: 18),
+      ),
+    ),
+
+    // ── Bottom Navigation (Dark) ──────────────────────────────────────────
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: AppColors.navBg,
+      backgroundColor: Colors.transparent,
       selectedItemColor: AppColors.navActive,
       unselectedItemColor: AppColors.navInactive,
       type: BottomNavigationBarType.fixed,
       elevation: 0,
-      showSelectedLabels: false,
+      showSelectedLabels: true,
       showUnselectedLabels: false,
       selectedIconTheme: IconThemeData(size: 26),
       unselectedIconTheme: IconThemeData(size: 24),
+      selectedLabelStyle: TextStyle(
+        fontFamily: AppTypography.bodyFont,
+        fontSize: 11,
+        fontWeight: FontWeight.w600,
+      ),
     ),
 
-    // ── Navigation Bar (Material 3) ────────────────────────────────────────
+    // ── Navigation Bar (Dark) ─────────────────────────────────────────────
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.navBg,
       indicatorColor: AppColors.surfaceAltDark,
@@ -867,6 +940,7 @@ ThemeData get appDarkTheme {
       height: 64,
     ),
 
+    // ── Bottom Sheet (Dark) ───────────────────────────────────────────────
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: AppColors.surfaceDark,
       modalBackgroundColor: AppColors.surfaceDark,
@@ -874,7 +948,9 @@ ThemeData get appDarkTheme {
       elevation: 0,
       dragHandleColor: Color(0xFF444444),
       dragHandleSize: Size(40, 4),
-      shape: RoundedRectangleBorder(borderRadius: AppRadius.sheetRadius),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       showDragHandle: true,
     ),
 
@@ -895,6 +971,7 @@ ThemeData get appDarkTheme {
       style: ButtonStyle(
         foregroundColor: WidgetStateProperty.all(AppColors.textPrimaryDark),
         overlayColor: WidgetStateProperty.all(const Color(0x14FFFFFF)),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: WidgetStateProperty.all(const EdgeInsets.all(8)),
         minimumSize: WidgetStateProperty.all(const Size(40, 40)),
         shape: WidgetStateProperty.all(
@@ -923,6 +1000,7 @@ ThemeData get appDarkTheme {
       shape: RoundedRectangleBorder(borderRadius: AppRadius.chipRadius),
     ),
 
+    // ── Chips (Dark) ──────────────────────────────────────────────────────
     chipTheme: ChipThemeData(
       backgroundColor: AppColors.surfaceAltDark,
       selectedColor: AppColors.primaryDarker,
@@ -946,6 +1024,31 @@ ThemeData get appDarkTheme {
       elevation: 0,
       pressElevation: 0,
       showCheckmark: false,
+    ),
+
+    // ── Tab Bar (Dark) ────────────────────────────────────────────────────
+    tabBarTheme: TabBarThemeData(
+      // Solid primary pill + on-primary label (readable vs red-on-red tint).
+      labelColor: AppColors.textOnPrimary,
+      unselectedLabelColor: AppColors.textSecondaryDark,
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerColor: Colors.transparent,
+      indicator: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      labelStyle: const TextStyle(
+        fontFamily: AppTypography.bodyFont,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        fontFamily: AppTypography.bodyFont,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      overlayColor: WidgetStateProperty.all(const Color(0x0AFF383C)),
     ),
 
     textTheme: TextTheme(

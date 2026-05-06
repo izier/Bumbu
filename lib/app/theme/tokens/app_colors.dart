@@ -20,32 +20,32 @@ class AppColors {
   static const Color secondaryDark = Color(0xFFCC7000);
 
   // ── Neutrals — Light Mode ─────────────────────────────────────────────────
-  static const Color bgLight = Color(0xFFF8F7F5); // warm off-white
-  static const Color surfaceLight = Color(0xFFFFFFFF);
-  static const Color surfaceAlt = Color(0xFFF2F1EE); // chip / tag bg
-  static const Color cardLight = Color(0xFFFFFFFF);
-  static const Color dividerLight = Color(0xFFEAE9E5);
-  static const Color shimmerBase = Color(0xFFEDECE9);
-  static const Color shimmerHighlight = Color(0xFFF8F7F5);
+  static const Color bgLight = Color(0xFFF2F2F7); // systemGroupedBackground
+  static const Color surfaceLight = Color(0xFFFFFFFF); // systemBackground
+  static const Color surfaceAlt = Color(0xFFE5E5EA); // systemGray6
+  static const Color cardLight = Color(0xFFFFFFFF); // secondarySystemGroupedBackground
+  static const Color dividerLight = Color(0xFFC6C6C8); // separator
+  static const Color shimmerBase = Color(0xFFE5E5EA);
+  static const Color shimmerHighlight = Color(0xFFF2F2F7);
 
   // ── Neutrals — Dark Mode ──────────────────────────────────────────────────
-  static const Color bgDark = Color(0xFF111111);
-  static const Color surfaceDark = Color(0xFF1C1C1C);
-  static const Color surfaceAltDark = Color(0xFF2A2A2A);
-  static const Color cardDark = Color(0xFF222222);
-  static const Color dividerDark = Color(0xFF303030);
+  static const Color bgDark = Color(0xFF000000); // systemBackground (dark)
+  static const Color surfaceDark = Color(0xFF1C1C1E); // secondarySystemBackground
+  static const Color surfaceAltDark = Color(0xFF2C2C2E); // tertiarySystemBackground
+  static const Color cardDark = Color(0xFF1C1C1E);
+  static const Color dividerDark = Color(0xFF38383A); // separator (dark)
 
   // ── Text — Light Mode ─────────────────────────────────────────────────────
-  static const Color textPrimary = Color(0xFF0F0F0F); // near-black
-  static const Color textSecondary = Color(0xFF6B6460);
-  static const Color textTertiary = Color(0xFFABA5A0);
+  static const Color textPrimary = Color(0xFF000000); // label
+  static const Color textSecondary = Color(0xFF3C3C43); // secondaryLabel (approx)
+  static const Color textTertiary = Color(0xFF3C3C43); // placeholderText is 30% black approx
   static const Color textOnPrimary = Color(0xFFFFFFFF);
   static const Color textOnDark = Color(0xFFFFFFFF);
 
   // ── Text — Dark Mode ──────────────────────────────────────────────────────
-  static const Color textPrimaryDark = Color(0xFFF2F0ED);
-  static const Color textSecondaryDark = Color(0xFFABA5A0);
-  static const Color textTertiaryDark = Color(0xFF6B6460);
+  static const Color textPrimaryDark = Color(0xFFFFFFFF); // label
+  static const Color textSecondaryDark = Color(0xFFEBEBF5); // secondaryLabel (approx)
+  static const Color textTertiaryDark = Color(0xFFEBEBF5); // tertiaryLabel
 
   // ── Semantic ──────────────────────────────────────────────────────────────
   static const Color success = Color(0xFF2DB66B);

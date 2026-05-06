@@ -14,18 +14,18 @@ class AppRadius {
   static const double xxl = 32.0;
   static const double full = 999.0; // pill/circle
 
-  static const BorderRadius cardRadius = BorderRadius.all(Radius.circular(18));
-  static const BorderRadius chipRadius = BorderRadius.all(Radius.circular(10));
+  static const BorderRadius cardRadius = BorderRadius.all(Radius.circular(12));
+  static const BorderRadius chipRadius = BorderRadius.all(Radius.circular(8));
   static const BorderRadius buttonRadius = BorderRadius.all(
-    Radius.circular(14),
+    Radius.circular(10),
   );
   static const BorderRadius pillRadius = BorderRadius.all(Radius.circular(999));
-  static const BorderRadius inputRadius = BorderRadius.all(Radius.circular(14));
+  static const BorderRadius inputRadius = BorderRadius.all(Radius.circular(10));
   static const BorderRadius heroImageRadius = BorderRadius.all(
-    Radius.circular(24),
+    Radius.circular(20),
   );
   static const BorderRadius sheetRadius = BorderRadius.vertical(
-    top: Radius.circular(28),
+    top: Radius.circular(12),
   );
 }
 

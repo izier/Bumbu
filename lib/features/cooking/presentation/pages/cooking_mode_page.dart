@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/feature_placeholder_page.dart';
 
 class CookingPage extends StatelessWidget {
@@ -7,6 +8,7 @@ class CookingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FeaturePlaceholderPage(label: 'Cooking');
+    final t = AppLocalizations.of(context)!;
+    return FeaturePlaceholderPage(title: t.cookingMode);
   }
 }

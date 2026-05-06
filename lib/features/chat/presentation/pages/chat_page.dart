@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/feature_placeholder_page.dart';
 
 class ChatPage extends StatelessWidget {
@@ -7,6 +8,7 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FeaturePlaceholderPage(label: 'Chat');
+    final t = AppLocalizations.of(context)!;
+    return FeaturePlaceholderPage(title: t.chat);
   }
 }

@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'auth_exceptions.dart';
 
 AuthException mapFirebaseAuthException(Object e) {
+  if (e is AuthException) return e;
+
   // Firebase errors
   if (e is FirebaseAuthException) {
     switch (e.code) {
@@ -11,6 +13,8 @@ AuthException mapFirebaseAuthException(Object e) {
         return const AuthException(AuthErrorType.wrongPassword);
       case 'user-not-found':
         return const AuthException(AuthErrorType.userNotFound);
+      case 'invalid-credential':
+        return const AuthException(AuthErrorType.invalidCredential);
       case 'email-already-in-use':
         return const AuthException(AuthErrorType.emailAlreadyInUse);
       case 'weak-password':

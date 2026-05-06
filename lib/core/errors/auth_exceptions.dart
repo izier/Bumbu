@@ -3,6 +3,7 @@ enum AuthErrorType {
   wrongPassword,
   userNotFound,
   emailAlreadyInUse,
+  usernameAlreadyInUse,
   weakPassword,
   network,
   cancelled,

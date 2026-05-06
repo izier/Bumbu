@@ -1,46 +1,38 @@
 import 'package:flutter/material.dart';
 
-//  2. TYPOGRAPHY
+//  2. TYPOGRAPHY (Apple HIG Inspired)
 // ─────────────────────────────────────────────────────────────────────────────
-
-/// Font families — add to pubspec.yaml:
-///   fonts:
-///     - family: Clash Display
-///       fonts: [{ asset: assets/fonts/ClashDisplay-*.otf }]
-///     - family: Satoshi
-///       fonts: [{ asset: assets/fonts/Satoshi-*.otf }]
-///
-/// Fallback: uses system font if custom fonts not added.
 
 class AppTypography {
   AppTypography._();
 
+  // Use system fonts for best HIG compliance
   static const String displayFont = 'Plus Jakarta Sans'; // Bold headers
   static const String bodyFont = 'Inter'; // UI / body copy
 
-  // ── Display / Hero ────────────────────────────────────────────────────────
+  // ── Display / Hero (iOS Large Title) ──────────────────────────────────────
   static const TextStyle heroTitle = TextStyle(
     fontFamily: displayFont,
-    fontSize: 36,
+    fontSize: 34,
     fontWeight: FontWeight.w700,
-    letterSpacing: -0.8,
-    height: 1.1,
+    letterSpacing: 0.37,
+    height: 1.2,
   );
 
   static const TextStyle heroTitleLight = TextStyle(
     fontFamily: displayFont,
-    fontSize: 36,
+    fontSize: 34,
     fontWeight: FontWeight.w700,
-    letterSpacing: -0.8,
-    height: 1.1,
+    letterSpacing: 0.37,
+    height: 1.2,
   );
 
-  // ── Section Headings ──────────────────────────────────────────────────────
+  // ── Section Headings (iOS Titles) ─────────────────────────────────────────
   static const TextStyle h1 = TextStyle(
     fontFamily: displayFont,
     fontSize: 28,
     fontWeight: FontWeight.w700,
-    letterSpacing: -0.5,
+    letterSpacing: 0.36,
     height: 1.2,
   );
 
@@ -48,120 +40,100 @@ class AppTypography {
     fontFamily: displayFont,
     fontSize: 22,
     fontWeight: FontWeight.w700,
-    letterSpacing: -0.4,
+    letterSpacing: 0.35,
     height: 1.25,
   );
 
   static const TextStyle h3 = TextStyle(
     fontFamily: displayFont,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: FontWeight.w600,
-    letterSpacing: -0.3,
+    letterSpacing: 0.38,
     height: 1.3,
   );
 
   static const TextStyle h4 = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: FontWeight.w600,
-    letterSpacing: -0.2,
+    letterSpacing: -0.41,
     height: 1.35,
   );
 
   // ── Body ──────────────────────────────────────────────────────────────────
   static const TextStyle bodyLarge = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: FontWeight.w400,
-    height: 1.6,
+    letterSpacing: -0.41,
+    height: 1.3,
   );
 
   static const TextStyle bodyMedium = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: FontWeight.w400,
-    height: 1.55,
+    letterSpacing: -0.24,
+    height: 1.35,
   );
 
   static const TextStyle bodySmall = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: FontWeight.w400,
-    height: 1.5,
+    letterSpacing: -0.08,
+    height: 1.4,
   );
 
   // ── Labels / UI ───────────────────────────────────────────────────────────
   static const TextStyle labelLarge = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: FontWeight.w600,
-    letterSpacing: 0.1,
+    letterSpacing: -0.41,
   );
 
   static const TextStyle labelMedium = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: FontWeight.w600,
-    letterSpacing: 0.1,
+    letterSpacing: -0.24,
   );
 
   static const TextStyle labelSmall = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 11,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.3,
-  );
-
-  // ── Price ─────────────────────────────────────────────────────────────────
-  static const TextStyle priceLarge = TextStyle(
-    fontFamily: displayFont,
-    fontSize: 22,
-    fontWeight: FontWeight.w700,
-    letterSpacing: -0.2,
-  );
-
-  static const TextStyle priceMedium = TextStyle(
-    fontFamily: displayFont,
-    fontSize: 16,
-    fontWeight: FontWeight.w700,
-    letterSpacing: -0.1,
-  );
-
-  static const TextStyle priceSmall = TextStyle(
-    fontFamily: bodyFont,
     fontSize: 13,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
+    letterSpacing: -0.08,
   );
 
   // ── Button ────────────────────────────────────────────────────────────────
   static const TextStyle buttonLarge = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 16,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 0.2,
+    fontSize: 17,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -0.41,
   );
 
   static const TextStyle buttonMedium = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 14,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 0.2,
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -0.24,
   );
 
   // ── Caption / Tag ─────────────────────────────────────────────────────────
   static const TextStyle caption = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 11,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.4,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0.0,
   );
 
   static const TextStyle tag = TextStyle(
     fontFamily: bodyFont,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: FontWeight.w600,
-    letterSpacing: 0.2,
+    letterSpacing: 0.06,
   );
 }
-
-// ─────────────────────────────────────────────────────────────────────────────

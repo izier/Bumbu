@@ -3,14 +3,10 @@ import 'package:bumbu/app/theme/tokens/app_spacing.dart';
 import 'package:bumbu/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../l10n/app_localizations.dart';
-
-final localeProvider = StateProvider<Locale>((ref) {
-  return const Locale('en');
-});
+import '../../../../shared/providers/app_settings_provider.dart';
 
 class LandingPage extends ConsumerWidget {
   const LandingPage({super.key});
@@ -34,26 +30,14 @@ class LandingPage extends ConsumerWidget {
                   value: locale,
                   dropdownColor: Theme.of(context).colorScheme.surface,
                   underline: const SizedBox(),
-                  items: const [
+                  items: [
                     DropdownMenuItem(
-                      value: Locale('en'),
-                      child: Row(
-                        children: [
-                          Text('🇺🇸'),
-                          SizedBox(width: 8),
-                          Text('EN'),
-                        ],
-                      ),
+                      value: const Locale('en'),
+                      child: Text(t.english),
                     ),
                     DropdownMenuItem(
-                      value: Locale('id'),
-                      child: Row(
-                        children: [
-                          Text('🇮🇩'),
-                          SizedBox(width: 8),
-                          Text('ID'),
-                        ],
-                      ),
+                      value: const Locale('id'),
+                      child: Text(t.indonesian),
                     ),
                   ],
                   onChanged: (value) {
@@ -89,13 +73,34 @@ class LandingPage extends ConsumerWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  Chip(label: Text(t.discovery)),
-                  Chip(label: Text(t.social)),
-                  Chip(label: Text(t.recipes)),
-                  Chip(label: Text(t.pantry)),
-                  Chip(label: Text(t.shopping)),
-                  Chip(label: Text(t.cookingMode)),
-                  Chip(label: Text(t.personalization)),
+                  Chip(
+                    label: Text(t.discovery),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Chip(
+                    label: Text(t.social),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Chip(
+                    label: Text(t.recipes),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Chip(
+                    label: Text(t.pantry),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Chip(
+                    label: Text(t.shopping),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Chip(
+                    label: Text(t.cookingMode),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Chip(
+                    label: Text(t.personalization),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                 ],
               ),
 
@@ -103,12 +108,6 @@ class LandingPage extends ConsumerWidget {
 
               ElevatedButton(
                 onPressed: () {
-                  // go() replaces the current route so matchedLocation is
-                  // correctly /auth. push() stacks auth on top of landing,
-                  // leaving matchedLocation as /landing — which breaks the
-                  // router redirect guards (errors redirect to landing instead
-                  // of staying on auth).
-                  // context.go(RouteNames.auth);
                   context.push(RouteNames.auth);
                 },
                 child: Text(t.getStarted),

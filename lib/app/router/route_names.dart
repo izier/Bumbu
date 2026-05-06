@@ -10,10 +10,19 @@ class RouteNames {
   static const activity = '/activity';
   static const chat = '/chat';
   static const profile = '/profile';
+  static String userProfilePath(String id) =>
+      '$profile/${Uri.encodeComponent(id)}';
+  static const profileMenu = '/profile/menu';
+  static const editProfile = '/profile/edit';
+
+  /// Full-screen search (recipes + people).
+  static const search = '/search';
 
   // Home
   static const recipeDetail = '/recipe';
-  static const createRecipe = '/recipe/create';
+  static const recipeEditor = '/recipe-editor';
+  static String recipeDetailPath(String id) =>
+      '$recipeDetail/${Uri.encodeComponent(id)}';
 
   // Kitchen
   static const pantry = '/kitchen/pantry';
